@@ -99,5 +99,24 @@ public class EmployeeServiceTest {
         assertEquals(employeeDetailsToBeAdded.getSalary(), employees.get(0).getSalary());
     }
 
+    @Test
+    void should_update_employee_when_update_given_employee_information_and_employee_id() {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 1000));
+        employees.add(new Employee(2, "bob", 20, "male", 1000));
+        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
+        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        given(employeeRepository.getEmployees()).willReturn(employees);
+        Employee updateEmployeeDetails = new Employee(){{
+            setName("zero");
+            setSalary(1000);
+        }};
+        Employee updateEmployee = employeeService.update(1, updateEmployeeDetails);
+
+        assertEquals(employees.get(0).getName(), updateEmployeeDetails.getName());
+        assertEquals(employees.get(0).getSalary(), updateEmployeeDetails.getSalary());
+        assertEquals(updateEmployee.getName(), updateEmployeeDetails.getName());
+        assertEquals(updateEmployee.getSalary(), updateEmployeeDetails.getSalary());
+    }
 
 }
