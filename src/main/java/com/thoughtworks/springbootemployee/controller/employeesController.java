@@ -56,6 +56,12 @@ public class EmployeesController {
         employees.add(employee);
     }
 
+    @PutMapping
+    public Employee updateEmployee( @RequestBody Employee employeeToBeupdated)
+    {
+        return employeeService.addEmployee(employeeToBeupdated);
+    }
+
 
 
 }
