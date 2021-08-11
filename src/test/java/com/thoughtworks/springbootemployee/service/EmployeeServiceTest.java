@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import com.thoughtworks.springbootemployee.model.Employees;
+import com.thoughtworks.springbootemployee.model.Employee;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.BDDMockito.given;
 
@@ -25,18 +26,32 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_all_employees_when_getAllEmployees_given_all_employees() {
         //given
-        List<Employees> employees = new ArrayList<>();
-        employees.add(new Employees(1, "alice", 20, "female", 1000));
-        employees.add(new Employees(2, "bob", 20, "male", 1000));
-        employees.add(new Employees(3, "bobsy", 20, "female", 1000));
-        employees.add(new Employees(4, "mark", 20, "male", 1000));
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 1000));
+        employees.add(new Employee(2, "bob", 20, "male", 1000));
+        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
+        employees.add(new Employee(4, "mark", 20, "male", 1000));
         given(employeeRepository.getEmployees()).willReturn(employees);
 
         //when
-        List<Employees> actualEmployees = employeeService.getAllEmployees();
+        List<Employee> actualEmployees = employeeService.getAllEmployees();
 
         //then
         assertIterableEquals(employees, actualEmployees);
+    }
+    @Test
+    public void should_return_employee_when_get_employee_given_employee_id() {
+        //given
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 1000));
+        employees.add(new Employee(2, "bob", 20, "male", 1000));
+        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
+        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        given(employeeRepository.getEmployees()).willReturn(employees);
+        //when
+        Employee actualEmployees =  employeeService.findEmployeebyID(1);
+        //then
+        assertEquals(employees.get(0),actualEmployees);
     }
 
 }
