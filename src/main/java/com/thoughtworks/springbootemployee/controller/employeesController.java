@@ -55,10 +55,10 @@ public class EmployeesController {
         return employeeService.addEmployee(employee);
     }
 
-    @PutMapping
-    public Employee updateEmployee( @RequestBody Employee employeeToBeupdated)
+    @PutMapping(path = "/{employeeId}")
+    public Employee updateEmployee(@PathVariable Integer employeeId, @RequestBody Employee employeeToBeupdated)
     {
-        return employeeService.addEmployee(employeeToBeupdated);
+        return employeeService.updateEmployee(employeeId,employeeToBeupdated);
     }
 
     @DeleteMapping(path = "/{employeeid}")

@@ -110,7 +110,7 @@ public class EmployeeServiceTest {
             setName("zero");
             setSalary(1000);
         }};
-        Employee updateEmployee = employeeService.update(1, updateEmployeeDetails);
+        Employee updateEmployee = employeeService.updateEmployee(1, updateEmployeeDetails);
 
         assertEquals(employees.get(0).getName(), updateEmployeeDetails.getName());
         assertEquals(employees.get(0).getSalary(), updateEmployeeDetails.getSalary());
