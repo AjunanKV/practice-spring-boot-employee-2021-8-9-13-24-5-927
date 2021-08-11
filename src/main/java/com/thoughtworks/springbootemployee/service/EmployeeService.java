@@ -28,6 +28,12 @@ public class EmployeeService {
                 .filter(employee -> employee.getId().equals(employeeId)).findAny().orElse(null);
     }
 
+    public List<Employee> findEmployeesByGender(String gender)
+    {
+        return employeeRepository.getEmployees().stream()
+                .filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+    }
+
 
 
 }

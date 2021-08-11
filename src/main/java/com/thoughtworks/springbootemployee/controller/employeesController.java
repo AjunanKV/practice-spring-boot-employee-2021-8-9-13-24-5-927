@@ -37,6 +37,13 @@ public class EmployeesController {
        return employeeService.findEmployeebyID(employeeid); // test first
     }
 
+    @GetMapping(params = "employeeGender") // params - no brackets
+    public List<Employee> findbyGender(@RequestParam String employeeGender) // request param
+    {
+       return employeeService.findEmployeesByGender(employeeGender); //test first
+    }
+
+
 
 
 
