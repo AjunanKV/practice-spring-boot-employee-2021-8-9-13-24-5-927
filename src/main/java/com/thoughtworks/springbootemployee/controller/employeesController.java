@@ -43,8 +43,18 @@ public class EmployeesController {
        return employeeService.findEmployeesByGender(employeeGender); //test first
     }
 
+    @GetMapping(params = {"pageIndex", "pageSize"})
+    public List<Employee> getEmployeesByPageIndex(@RequestParam int pageIndex, @RequestParam int pageSize)
+    {
+       return employeeService.getEmployeesWithPageIndexAndPageSize(0,2);
+    }
 
-
+    @PostMapping
+    public void addEmployee(@RequestBody Employee employee)
+    {
+        // Employee employeeTobeAdded = new Employee(employees.size() + 1, employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary());
+        employees.add(employee);
+    }
 
 
 
