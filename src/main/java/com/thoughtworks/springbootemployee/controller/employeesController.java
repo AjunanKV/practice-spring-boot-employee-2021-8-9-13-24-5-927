@@ -61,6 +61,12 @@ public class EmployeesController {
         return employeeService.addEmployee(employeeToBeupdated);
     }
 
+    @DeleteMapping(path = "/{employeeid}")
+    public Employee removeEmployee(@PathVariable Integer employeeid)
+    {
+        return employeeService.removeEmployee(employeeid);
+    }
+
 
 
 }

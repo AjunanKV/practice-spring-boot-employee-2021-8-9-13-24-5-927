@@ -70,4 +70,15 @@ public class EmployeeService {
         return employee;
     }
 
+    public Employee removeEmployee(Integer employeeId) {
+        Employee employeeToBeRemoved = employeeRepository.getEmployees()
+                .stream()
+                .filter(employee -> employee.getId().equals(employeeId))
+                .findFirst().orElse(null);
+        if (employeeToBeRemoved != null) {
+            employeeRepository.getEmployees().remove(employeeToBeRemoved);
+            return employeeToBeRemoved;
+        }
+        return null;
+    }
 }
