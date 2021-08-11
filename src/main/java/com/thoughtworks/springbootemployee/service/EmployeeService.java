@@ -47,7 +47,7 @@ public class EmployeeService {
         return employeeToBeAdded;
     }
 
-    public Employee update(int employeeId, Employee updateEmployeeDetails) {
+    public Employee updateEmployee(int employeeId, Employee updateEmployeeDetails) {
         return employeeRepository.getEmployees().stream()
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst()
