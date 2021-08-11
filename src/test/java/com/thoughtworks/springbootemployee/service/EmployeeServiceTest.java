@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,6 +69,15 @@ public class EmployeeServiceTest {
         //then
         assertEquals(employees.get(1).getGender(),actualEmployees.get(0).getGender());
         assertEquals(employees.get(3).getGender(),actualEmployees.get(1).getGender());
+    }
+
+    @Test
+    void should_return_two_employees_in_a_list_when_getListByPagination_given_pageIndex_is_one_and_page_Size_is_2() {
+        given(employeeRepository.getEmployees())
+                .willReturn(Arrays.asList(new Employee(),new Employee(),new Employee(),new Employee()));
+        int expectedCount = 2;
+        int outputCount = employeeService.getEmployeesWithPageIndexAndPageSize(1, 2).size();
+        assertEquals(outputCount, expectedCount);
     }
 
 
