@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -50,10 +49,10 @@ public class EmployeesController {
     }
 
     @PostMapping
-    public void addEmployee(@RequestBody Employee employee)
+    public Employee addEmployee(@RequestBody Employee employee)
     {
         // Employee employeeTobeAdded = new Employee(employees.size() + 1, employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary());
-        employees.add(employee);
+        return employeeService.addEmployee(employee);
     }
 
     @PutMapping
