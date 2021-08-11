@@ -81,7 +81,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_create_employee_and_add_to_list_when_create_given_employee_information() {
+    void should_add_employee_and_add_to_list_when_create_given_employee_information() {
         List<Employee> employees = new ArrayList<>();
         given(employeeRepository.getEmployees()).willReturn(employees);
         Employee employeeDetailsToBeAdded = new Employee(){{
