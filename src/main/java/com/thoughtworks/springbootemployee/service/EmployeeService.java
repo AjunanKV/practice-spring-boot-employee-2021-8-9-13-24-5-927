@@ -40,4 +40,11 @@ public class EmployeeService {
                 .skip((pageIndex -1) *pageSize).limit(pageSize).collect(Collectors.toList());
     }
 
+    public Employee addEmployee(Employee employee) {
+        Employee employeeToBeAdded = new Employee(employeeRepository.getEmployees().size() + 1, employee.getName(),
+                employee.getAge(), employee.getGender(), employee.getSalary());
+        employeeRepository.getEmployees().add(employeeToBeAdded);
+        return employeeToBeAdded;
+    }
+
 }

@@ -22,4 +22,9 @@ public class EmployeeRepository {
     public List<Employee> getEmployees() {
         return employees;
     }
+
+    public Employee add(Employee employee){
+        employees.add(employee);
+        return employee;
+    }
 }
