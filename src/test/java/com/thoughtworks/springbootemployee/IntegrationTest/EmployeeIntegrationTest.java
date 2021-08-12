@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,7 +70,15 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(20))
                 .andExpect(jsonPath("$.gender").value("male"));
     }
-    
+
+    @Test
+    void should_return_employees_when_findByGender_given_employee_gender() throws Exception {
+        String gender = "male";
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("gender", gender)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(5)));
+    }
 
 
 
