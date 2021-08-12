@@ -18,23 +18,30 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.getEmployees(); //TODO: getEmployees
+        return employeeRepository.getEmployees();
     }
 
     public Employee findEmployeebyID(int employeeId) {
-        return getAllEmployees().stream() //TODO: create new line for API
-                .filter(employee -> employee.getId().equals(employeeId)).findAny().orElse(null); // TODO: create exception
+        return getAllEmployees()
+                .stream()
+                .filter(employee -> employee.getId().equals(employeeId))
+                .findAny()
+                .orElse(null); // TODO: create exception
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
-        return getAllEmployees().stream()
-                .filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
+        return getAllEmployees()
+                .stream()
+                .filter(employee -> employee.getGender().equals(gender))
+                .collect(Collectors.toList());
     }
 
     public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize) {
         int formula = (pageIndex - 1) * pageSize;
-        return getAllEmployees().stream()
-                .skip(formula).limit(pageSize).collect(Collectors.toList());
+        return getAllEmployees()
+                .stream()
+                .skip(formula).limit(pageSize)
+                .collect(Collectors.toList());
     }
 
     public Employee addEmployee(Employee employee) {
