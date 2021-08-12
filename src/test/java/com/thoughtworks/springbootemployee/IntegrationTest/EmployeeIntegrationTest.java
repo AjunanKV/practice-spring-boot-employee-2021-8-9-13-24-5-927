@@ -22,7 +22,7 @@ public class EmployeeIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private RetiringEmployeeRepository retiringEmployeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Test
    public void should_return_all_employees_when_get_all_employees_API() throws Exception {
@@ -32,9 +32,9 @@ public class EmployeeIntegrationTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Linne"))
+                .andExpect(jsonPath("$[0].name").value("Kevin"))
                 .andExpect(jsonPath("$[0].age").value(20))
-                .andExpect(jsonPath("$[0].gender").value("female"))
+                .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[2].name").value("Janelle"))
                 .andExpect(jsonPath("$[2].age").value(20))
                 .andExpect(jsonPath("$[2].gender").value("female"));
@@ -79,6 +79,21 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(5)));
     }
+
+    @Test
+    void should_remove_when_removeEmployee_given_employee_id() throws Exception {
+        //given
+        final Employee employee = new Employee(100, "zero", 100, "male", 999);
+        final Employee savedEmployee = employeeRepository.save(employee);
+        int id = savedEmployee.getId();
+        //when
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
 
 
 
