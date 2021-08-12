@@ -3,7 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.Exceptions.NoEmployeeWithIDException;
 import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.repository.NewEmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -15,38 +15,38 @@ import java.util.Optional;
 public class EmployeeService {
     @Resource
     private RetiringEmployeeRepository retiringEmployeeRepository;
-    private NewEmployeeRepository newEmployeeRepository;
+    private EmployeeRepository employeeRepository;
 
-    public EmployeeService(RetiringEmployeeRepository retiringEmployeeRepository, NewEmployeeRepository newEmployeeRepository) {
+    public EmployeeService(RetiringEmployeeRepository retiringEmployeeRepository, EmployeeRepository employeeRepository) {
         this.retiringEmployeeRepository = retiringEmployeeRepository;
-        this.newEmployeeRepository = newEmployeeRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     public List<Employee> getAllEmployees() {
-        return newEmployeeRepository.findAll();
+        return employeeRepository.findAll();
     }
 
     public Employee findEmployeebyID(int employeeId) {
-        return newEmployeeRepository.findById(employeeId).orElseThrow(NoEmployeeWithIDException::new);
+        return employeeRepository.findById(employeeId).orElseThrow(NoEmployeeWithIDException::new);
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
-        return newEmployeeRepository.findAllByGender(gender);
+        return employeeRepository.findAllByGender(gender);
     }
 
     public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize) {
-        return newEmployeeRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
+        return employeeRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
     public Employee addEmployee(Employee employee) {
-        return newEmployeeRepository.save(employee);
+        return employeeRepository.save(employee);
     }
 
     public Employee updateEmployeeById(int employeeId, Employee updateEmployeeDetails) {
-        Employee updateEmployee = newEmployeeRepository.findById(employeeId)
+        Employee updateEmployee = employeeRepository.findById(employeeId)
                 .map(employee -> updateEmployeeInformation(employee, updateEmployeeDetails))
                 .get();
-        return newEmployeeRepository.save(updateEmployee);
+        return employeeRepository.save(updateEmployee);
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdate) {
@@ -66,8 +66,8 @@ public class EmployeeService {
     }
 
     public Employee removeEmployee(Integer employeeId) {
-        Optional<Employee> removeEmployee = newEmployeeRepository.findById(employeeId);
-        newEmployeeRepository.deleteById(employeeId);
+        Optional<Employee> removeEmployee = employeeRepository.findById(employeeId);
+        employeeRepository.deleteById(employeeId);
         return removeEmployee.orElse(null);
     }
 }
