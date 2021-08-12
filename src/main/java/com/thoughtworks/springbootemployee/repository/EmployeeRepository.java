@@ -23,8 +23,4 @@ public class EmployeeRepository {
         return employees;
     }
 
-    public Employee add(Employee employee){
-        employees.add(employee);
-        return employee;
-    }
 }

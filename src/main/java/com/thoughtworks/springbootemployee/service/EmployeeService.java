@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
     @Resource
     private EmployeeRepository employeeRepository;
     private NewEmployeeRepository newEmployeeRepository;
+
     public EmployeeService(EmployeeRepository employeeRepository, NewEmployeeRepository newEmployeeRepository) {
         this.employeeRepository = employeeRepository;
         this.newEmployeeRepository = newEmployeeRepository;
@@ -32,11 +32,10 @@ public class EmployeeService {
 
     public List<Employee> findEmployeesByGender(String gender) {
         return newEmployeeRepository.findAllByGender(gender);
-
     }
 
     public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize) {
-        return newEmployeeRepository.findAll(PageRequest.of(pageIndex-1,pageSize)).getContent();
+        return newEmployeeRepository.findAll(PageRequest.of(pageIndex - 1, pageSize)).getContent();
     }
 
     public Employee addEmployee(Employee employee) {
@@ -65,6 +64,7 @@ public class EmployeeService {
         }
         return employee;
     }
+
     public Employee removeEmployee(Integer employeeId) {
         Optional<Employee> removeEmployee = newEmployeeRepository.findById(employeeId);
         newEmployeeRepository.deleteById(employeeId);

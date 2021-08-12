@@ -17,6 +17,7 @@ public class CompanyService {
     public CompanyService(CompanyRepository companyRepositoryRepository) {
         this.companyRepositoryRepository = companyRepositoryRepository;
     }
+
     public List<Employee> getAllEmployeesByCompanyId(Integer companyId) {
         Company company = companyRepositoryRepository.findById(companyId).orElse(null);
         return company.getEmployees();

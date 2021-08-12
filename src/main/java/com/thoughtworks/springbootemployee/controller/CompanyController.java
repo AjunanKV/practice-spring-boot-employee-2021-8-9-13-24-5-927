@@ -21,7 +21,7 @@ public class CompanyController {
     private List<Company> companies = new ArrayList<>();
 
     @GetMapping(path = "/{companyId}/employees")
-    public List<Employee> getAllEmployeesByCompanyId(@PathVariable Integer companyId){
+    public List<Employee> getAllEmployeesByCompanyId(@PathVariable Integer companyId) {
         return companyService.getAllEmployeesByCompanyId(companyId);
     }
 }

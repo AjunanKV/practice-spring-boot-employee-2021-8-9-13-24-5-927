@@ -7,9 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,16 +35,15 @@ public class EmployeeServiceTest {
     }
 
 
-
     @Test
     public void should_return_employee_when_get_employee_given_employee_id() {
         //given
         List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
         //when
-        Employee actualEmployees =  employeeService.findEmployeebyID(1);
+        Employee actualEmployees = employeeService.findEmployeebyID(1);
         //then
-        assertEquals(employees.get(0),actualEmployees);
+        assertEquals(employees.get(0), actualEmployees);
     }
 
     @Test
@@ -57,21 +54,21 @@ public class EmployeeServiceTest {
         //when
         List<Employee> actualEmployees = employeeService.findEmployeesByGender("male");
         //then
-        assertEquals(employees.get(1).getGender(),actualEmployees.get(0).getGender());
-        assertEquals(employees.get(3).getGender(),actualEmployees.get(1).getGender());
+        assertEquals(employees.get(1).getGender(), actualEmployees.get(0).getGender());
+        assertEquals(employees.get(3).getGender(), actualEmployees.get(1).getGender());
     }
 
     @Test
     void should_return_two_employees_in_a_list_when_getListByPagination_given_pageIndex_is_one_and_page_Size_is_2() {
         List<Employee> employees = addItemsInEmployeeList();
 
-        given(employeeService.getEmployeesWithPageIndexAndPageSize(1, 2)).willReturn(employees.subList(0,2));
+        given(employeeService.getEmployeesWithPageIndexAndPageSize(1, 2)).willReturn(employees.subList(0, 2));
         int expectedCount = 2;
         List<Employee> actualEmployees = employeeService.getEmployeesWithPageIndexAndPageSize(1, 2);
         int outputCount = employeeService.getEmployeesWithPageIndexAndPageSize(1, 2).size();
 
         assertEquals(outputCount, expectedCount);
-        assertEquals(employees.subList(0,2), actualEmployees);
+        assertEquals(employees.subList(0, 2), actualEmployees);
 
 
     }
@@ -80,7 +77,7 @@ public class EmployeeServiceTest {
     void should_add_employee_and_add_to_list_when_create_given_employee_information() {
         List<Employee> employees = new ArrayList<>();
         given(employeeRepository.getEmployees()).willReturn(employees);
-        Employee employeeDetailsToBeAdded = new Employee(){{
+        Employee employeeDetailsToBeAdded = new Employee() {{
             setName("zero");
             setAge(99);
             setGender("Male");
@@ -99,7 +96,7 @@ public class EmployeeServiceTest {
     void should_update_employee_when_update_given_employee_information_and_employee_id() {
         List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
-        Employee updateEmployeeDetails = new Employee(){{
+        Employee updateEmployeeDetails = new Employee() {{
             setName("zero");
             setSalary(1000);
         }};
