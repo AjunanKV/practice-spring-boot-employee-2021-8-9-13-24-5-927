@@ -57,7 +57,7 @@ public class EmployeeService {
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst()
                 .map(employee -> updateEmployeeInformation(employee, updateEmployeeDetails))
-                .orElse(null);// TODO: create exception
+                .orElseThrow(NoEmployeeWithIDException::new);
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdate) {
