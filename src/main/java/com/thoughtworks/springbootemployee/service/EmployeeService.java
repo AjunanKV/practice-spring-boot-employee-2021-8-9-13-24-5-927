@@ -4,6 +4,7 @@ import com.thoughtworks.springbootemployee.Exceptions.NoEmployeeWithIDException;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.NewEmployeeRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,13 +35,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize) {
-        int formula = (pageIndex - 1) * pageSize;
-
-
-        return getAllEmployees()
-                .stream()
-                .skip(formula).limit(pageSize)
-                .collect(Collectors.toList());
+        return newEmployeeRepository.findAll(PageRequest.of(pageIndex-1,pageSize)).getContent();
     }
 
     public Employee addEmployee(Employee employee) {
