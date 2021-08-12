@@ -60,21 +60,14 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.gender").value("male"));
     }
     @Test
-    void should_update_when_updateEmployee_given_employee_information() throws Exception {
-        //given
-        final Employee employee = new Employee(10, "Falcon", 25, "male", 8000);
-        Employee employee2 = EmployeeRepository.save()
-        String newEmployeeInfo = "{\n" +
-                "    \"age\": 22\n" +
-                "}";
-
-        //when
-        int id = savedEmployee.getId();
-        mockMvc.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(newEmployeeInfo))
+    void should_return_employee_when_findById_given_employee_id() throws Exception {
+        final int id=1;
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}", id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.age").value("22"));
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("Kevin"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.gender").value("male"));
     }
 
 
