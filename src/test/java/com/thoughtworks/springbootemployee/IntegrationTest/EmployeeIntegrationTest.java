@@ -111,6 +111,18 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value("99"));
     }
 
+    @Test
+    void should_return_two_employee_per_list_when_getListByPagination_given_pageIndex_is_1_and_pageSize_is_2() throws Exception {
+        int pageSize = 2;
+        int pageIndex = 1;
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees")
+                .param("pageIndex", String.valueOf(pageIndex)).param("pageSize", String.valueOf(pageSize))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(2)));
+    }
+
+
 
 
 
