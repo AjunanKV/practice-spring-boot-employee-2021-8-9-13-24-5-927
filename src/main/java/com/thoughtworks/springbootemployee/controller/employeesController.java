@@ -4,6 +4,7 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class EmployeesController {
     }
 
     @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
     }
