@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.Exceptions.NoEmployeeWithIDException;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.NewEmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,32 +14,29 @@ import java.util.stream.Collectors;
 public class EmployeeService {
     @Resource
     private EmployeeRepository employeeRepository;
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    private NewEmployeeRepository newEmployeeRepository;
+    public EmployeeService(EmployeeRepository employeeRepository, NewEmployeeRepository newEmployeeRepository) {
         this.employeeRepository = employeeRepository;
+        this.newEmployeeRepository = newEmployeeRepository;
     }
 
     public List<Employee> getAllEmployees() {
-        return employeeRepository.getEmployees();
+        return newEmployeeRepository.findAll();
     }
 
     public Employee findEmployeebyID(int employeeId) {
-        return getAllEmployees()
-                .stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findAny()
-                .orElseThrow(NoEmployeeWithIDException::new);
+        return null;
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
-        return getAllEmployees()
-                .stream()
-                .filter(employee -> employee.getGender().equals(gender))
-                .collect(Collectors.toList());
+        return null;
+
     }
 
     public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize) {
         int formula = (pageIndex - 1) * pageSize;
+
+
         return getAllEmployees()
                 .stream()
                 .skip(formula).limit(pageSize)
@@ -83,9 +81,9 @@ public class EmployeeService {
                 .findFirst().orElse(null);
         if (employeeToBeRemoved != null) {
             getAllEmployees().remove(employeeToBeRemoved);
-            return employeeToBeRemoved; //TODO: ifPresent
+            return employeeToBeRemoved;
 
         }
-        return null; //TODO: exception
+        return null;
     }
 }
