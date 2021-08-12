@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,17 +65,9 @@ public class EmployeeService {
         }
         return employee;
     }
-
     public Employee removeEmployee(Integer employeeId) {
-        Employee employeeToBeRemoved = employeeRepository.getEmployees()
-                .stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst().orElse(null);
-        if (employeeToBeRemoved != null) {
-            getAllEmployees().remove(employeeToBeRemoved);
-            return employeeToBeRemoved;
-
-        }
-        return null;
+        Optional<Employee> removeEmployee = newEmployeeRepository.findById(employeeId);
+        newEmployeeRepository.deleteById(employeeId);
+        return removeEmployee.orElse(null);
     }
 }
