@@ -8,10 +8,10 @@ import java.util.List;
 
 
 @Repository
-public class EmployeeRepository {
+public class RetiringEmployeeRepository {
     private List<Employee> employees= new ArrayList<>();
 
-    public EmployeeRepository() {
+    public RetiringEmployeeRepository() {
         employees.add(new Employee(1,"alice",20,"female",1000));
         employees.add(new Employee(2,"bob",20,"male",1000));
 

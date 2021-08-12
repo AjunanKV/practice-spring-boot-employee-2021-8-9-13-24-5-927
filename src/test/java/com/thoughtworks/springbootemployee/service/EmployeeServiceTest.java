@@ -1,6 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,13 +19,13 @@ public class EmployeeServiceTest {
     private EmployeeService employeeService;
 
     @Mock
-    private EmployeeRepository employeeRepository;
+    private RetiringEmployeeRepository retiringEmployeeRepository;
 
     @Test
     public void should_return_all_employees_when_getAllEmployees_given_all_employees() {
         //given
         List<Employee> employees = addItemsInEmployeeList();
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
 
         //when
         List<Employee> actualEmployees = employeeService.getAllEmployees();
@@ -39,7 +39,7 @@ public class EmployeeServiceTest {
     public void should_return_employee_when_get_employee_given_employee_id() {
         //given
         List<Employee> employees = addItemsInEmployeeList();
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
         //when
         Employee actualEmployees = employeeService.findEmployeebyID(1);
         //then
@@ -50,7 +50,7 @@ public class EmployeeServiceTest {
     public void should_return_employee_when_get_employee_given_employee_gender() {
         //given
         List<Employee> employees = addItemsInEmployeeList();
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
         //when
         List<Employee> actualEmployees = employeeService.findEmployeesByGender("male");
         //then
@@ -76,7 +76,7 @@ public class EmployeeServiceTest {
     @Test
     void should_add_employee_and_add_to_list_when_create_given_employee_information() {
         List<Employee> employees = new ArrayList<>();
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
         Employee employeeDetailsToBeAdded = new Employee() {{
             setName("zero");
             setAge(99);
@@ -95,7 +95,7 @@ public class EmployeeServiceTest {
     @Test
     void should_update_employee_when_update_given_employee_information_and_employee_id() {
         List<Employee> employees = addItemsInEmployeeList();
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
         Employee updateEmployeeDetails = new Employee() {{
             setName("zero");
             setSalary(1000);
@@ -111,7 +111,7 @@ public class EmployeeServiceTest {
     @Test
     void should_delete_employee_when_delete_given_employee_id() {
         List<Employee> employees = addItemsInEmployeeList();
-        given(employeeRepository.getEmployees()).willReturn(employees);
+        given(retiringEmployeeRepository.getEmployees()).willReturn(employees);
         Employee expectedEmployeeToBeDeleted = employeeService.removeEmployee(1);
         assertNotNull(expectedEmployeeToBeDeleted);
         assertEquals(3, employees.size());

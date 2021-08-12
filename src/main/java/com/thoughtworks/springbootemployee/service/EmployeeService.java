@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.Exceptions.NoEmployeeWithIDException;
-import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.NewEmployeeRepository;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +14,11 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     @Resource
-    private EmployeeRepository employeeRepository;
+    private RetiringEmployeeRepository retiringEmployeeRepository;
     private NewEmployeeRepository newEmployeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, NewEmployeeRepository newEmployeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeService(RetiringEmployeeRepository retiringEmployeeRepository, NewEmployeeRepository newEmployeeRepository) {
+        this.retiringEmployeeRepository = retiringEmployeeRepository;
         this.newEmployeeRepository = newEmployeeRepository;
     }
 
