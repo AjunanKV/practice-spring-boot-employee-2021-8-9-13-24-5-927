@@ -26,11 +26,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_all_employees_when_getAllEmployees_given_all_employees() {
         //given
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "alice", 20, "female", 1000));
-        employees.add(new Employee(2, "bob", 20, "male", 1000));
-        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
-        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
 
         //when
@@ -39,14 +35,13 @@ public class EmployeeServiceTest {
         //then
         assertIterableEquals(employees, actualEmployees);
     }
+
+
+
     @Test
     public void should_return_employee_when_get_employee_given_employee_id() {
         //given
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "alice", 20, "female", 1000));
-        employees.add(new Employee(2, "bob", 20, "male", 1000));
-        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
-        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
         //when
         Employee actualEmployees =  employeeService.findEmployeebyID(1);
@@ -57,11 +52,7 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_employee_when_get_employee_given_employee_gender() {
         //given
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "alice", 20, "female", 1000));
-        employees.add(new Employee(2, "bob", 20, "male", 1000));
-        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
-        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
         //when
         List<Employee> actualEmployees = employeeService.findEmployeesByGender("male");
@@ -72,11 +63,17 @@ public class EmployeeServiceTest {
 
     @Test
     void should_return_two_employees_in_a_list_when_getListByPagination_given_pageIndex_is_one_and_page_Size_is_2() {
-        given(employeeRepository.getEmployees())
-                .willReturn(Arrays.asList(new Employee(),new Employee(),new Employee(),new Employee()));
+        List<Employee> employees = addItemsInEmployeeList();
+
+        given(employeeService.getEmployeesWithPageIndexAndPageSize(1, 2)).willReturn(employees.subList(0,2));
         int expectedCount = 2;
+        List<Employee> actualEmployees = employeeService.getEmployeesWithPageIndexAndPageSize(1, 2);
         int outputCount = employeeService.getEmployeesWithPageIndexAndPageSize(1, 2).size();
+
         assertEquals(outputCount, expectedCount);
+        assertEquals(employees.subList(0,2), actualEmployees);
+
+
     }
 
     @Test
@@ -100,17 +97,13 @@ public class EmployeeServiceTest {
 
     @Test
     void should_update_employee_when_update_given_employee_information_and_employee_id() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "alice", 20, "female", 1000));
-        employees.add(new Employee(2, "bob", 20, "male", 1000));
-        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
-        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
         Employee updateEmployeeDetails = new Employee(){{
             setName("zero");
             setSalary(1000);
         }};
-        Employee updateEmployee = employeeService.updateEmployee(1, updateEmployeeDetails);
+        Employee updateEmployee = employeeService.updateEmployeeById(1, updateEmployeeDetails);
 
         assertEquals(employees.get(0).getName(), updateEmployeeDetails.getName());
         assertEquals(employees.get(0).getSalary(), updateEmployeeDetails.getSalary());
@@ -120,16 +113,21 @@ public class EmployeeServiceTest {
 
     @Test
     void should_delete_employee_when_delete_given_employee_id() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "alice", 20, "female", 1000));
-        employees.add(new Employee(2, "bob", 20, "male", 1000));
-        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
-        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        List<Employee> employees = addItemsInEmployeeList();
         given(employeeRepository.getEmployees()).willReturn(employees);
         Employee expectedEmployeeToBeDeleted = employeeService.removeEmployee(1);
         assertNotNull(expectedEmployeeToBeDeleted);
         assertEquals(3, employees.size());
         assertEquals(1, expectedEmployeeToBeDeleted.getId());
+    }
+
+    private List<Employee> addItemsInEmployeeList() {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1, "alice", 20, "female", 1000));
+        employees.add(new Employee(2, "bob", 20, "male", 1000));
+        employees.add(new Employee(3, "bobsy", 20, "female", 1000));
+        employees.add(new Employee(4, "mark", 20, "male", 1000));
+        return employees;
     }
 
 }
