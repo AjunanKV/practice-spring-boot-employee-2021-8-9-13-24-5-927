@@ -2,60 +2,58 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
-    @Autowired
+    @Resource
     private EmployeeRepository employeeRepository;
 
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> getAllEmployees()
-    {
-        return employeeRepository.getEmployees();
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.getEmployees(); //TODO: getEmployees
     }
-
 
     public Employee findEmployeebyID(int employeeId) {
-        return employeeRepository.getEmployees().stream()
-                .filter(employee -> employee.getId().equals(employeeId)).findAny().orElse(null);
+        return getAllEmployees().stream() //TODO: create new line for API
+                .filter(employee -> employee.getId().equals(employeeId)).findAny().orElse(null); // TODO: create exception
     }
 
-    public List<Employee> findEmployeesByGender(String gender)
-    {
-        return employeeRepository.getEmployees().stream()
+    public List<Employee> findEmployeesByGender(String gender) {
+        return getAllEmployees().stream()
                 .filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
     }
 
-    public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize)
-    {
-        return employeeRepository.getEmployees().stream()
-                .skip((pageIndex -1) *pageSize).limit(pageSize).collect(Collectors.toList());
+    public List<Employee> getEmployeesWithPageIndexAndPageSize(int pageIndex, int pageSize) {
+        int formula = (pageIndex - 1) * pageSize;
+        return getAllEmployees().stream()
+                .skip(formula).limit(pageSize).collect(Collectors.toList());
     }
 
     public Employee addEmployee(Employee employee) {
         Employee employeeToBeAdded = new Employee(employeeRepository.getEmployees().size() + 1, employee.getName(),
                 employee.getAge(), employee.getGender(), employee.getSalary());
-        employeeRepository.getEmployees().add(employeeToBeAdded);
+        getAllEmployees().add(employeeToBeAdded);
         return employeeToBeAdded;
     }
 
-    public Employee updateEmployee(int employeeId, Employee updateEmployeeDetails) {
-        return employeeRepository.getEmployees().stream()
+    public Employee updateEmployeeById(int employeeId, Employee updateEmployeeDetails) {
+        return getAllEmployees().stream()
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst()
                 .map(employee -> updateEmployeeInformation(employee, updateEmployeeDetails))
-                .orElse(null);
+                .orElse(null);// TODO: create exception
     }
+
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdate) {
-        if(employeeUpdate.getAge() != null) {
+        if (employeeUpdate.getAge() != null) {
             employee.setAge(employeeUpdate.getAge());
         }
         if (employeeUpdate.getGender() != null) {
@@ -76,9 +74,10 @@ public class EmployeeService {
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findFirst().orElse(null);
         if (employeeToBeRemoved != null) {
-            employeeRepository.getEmployees().remove(employeeToBeRemoved);
-            return employeeToBeRemoved;
+            getAllEmployees().remove(employeeToBeRemoved);
+            return employeeToBeRemoved; //TODO: ifPresent
+
         }
-        return null;
+        return null; //TODO: exception
     }
 }
