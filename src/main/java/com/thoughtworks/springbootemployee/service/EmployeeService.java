@@ -39,10 +39,7 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(Employee employee) {
-        Employee employeeToBeAdded = new Employee(employeeRepository.getEmployees().size() + 1, employee.getName(),
-                employee.getAge(), employee.getGender(), employee.getSalary());
-        getAllEmployees().add(employeeToBeAdded);
-        return employeeToBeAdded;
+        return newEmployeeRepository.save(employee);
     }
 
     public Employee updateEmployeeById(int employeeId, Employee updateEmployeeDetails) {
