@@ -29,7 +29,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
-        return null;
+        return newEmployeeRepository.findAllByGender(gender);
 
     }
 
@@ -82,6 +82,8 @@ public class EmployeeService {
         if (employeeToBeRemoved != null) {
             getAllEmployees().remove(employeeToBeRemoved);
             return employeeToBeRemoved;
+
         }
-        return null; 
+        return null;
+    }
 }
