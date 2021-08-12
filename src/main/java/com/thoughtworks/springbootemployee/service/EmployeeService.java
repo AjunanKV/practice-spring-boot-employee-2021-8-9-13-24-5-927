@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.Exceptions.NoEmployeeWithIDException;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class EmployeeService {
                 .stream()
                 .filter(employee -> employee.getId().equals(employeeId))
                 .findAny()
-                .orElse(null); // TODO: create exception
+                .orElseThrow(NoEmployeeWithIDException::new);
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
