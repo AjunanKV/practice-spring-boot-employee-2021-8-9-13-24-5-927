@@ -43,11 +43,10 @@ public class EmployeeService {
     }
 
     public Employee updateEmployeeById(int employeeId, Employee updateEmployeeDetails) {
-        return getAllEmployees().stream()
-                .filter(employee -> employee.getId().equals(employeeId))
-                .findFirst()
+        Employee updateEmployee = newEmployeeRepository.findById(employeeId)
                 .map(employee -> updateEmployeeInformation(employee, updateEmployeeDetails))
-                .orElseThrow(NoEmployeeWithIDException::new);
+                .get();
+        return newEmployeeRepository.save(updateEmployee);
     }
 
     private Employee updateEmployeeInformation(Employee employee, Employee employeeUpdate) {
