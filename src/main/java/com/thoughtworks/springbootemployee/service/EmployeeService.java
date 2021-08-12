@@ -25,7 +25,7 @@ public class EmployeeService {
     }
 
     public Employee findEmployeebyID(int employeeId) {
-        return null;
+        return newEmployeeRepository.findById(employeeId).orElseThrow(NoEmployeeWithIDException::new);
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
@@ -82,8 +82,6 @@ public class EmployeeService {
         if (employeeToBeRemoved != null) {
             getAllEmployees().remove(employeeToBeRemoved);
             return employeeToBeRemoved;
-
         }
-        return null;
-    }
+        return null; 
 }
