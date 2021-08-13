@@ -2,8 +2,11 @@ package com.thoughtworks.springbootemployee.IntegrationTest;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
-import com.thoughtworks.springbootemployee.repository.RetiringEmployeeRepository;
 
+import org.hamcrest.Matchers;
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,6 +29,22 @@ public class EmployeeIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    List<Employee> employeeData;
+//    @BeforeEach
+//    void buildUP(){
+//        employeeData = Arrays.asList(new Employee(1,"Kevin",20,"male",9000),
+//                new Employee(2,"Jc",21,"male",1000000),
+//                new Employee(3,"Janelle",20,"femlae",1000000),
+//                new Employee(4,"Charlie",21,"male",1000000));
+//
+//        employeeRepository.save(employeeData);
+//
+//    }
+    @AfterEach
+    void tearDown(){
+        employeeRepository.deleteAll();
+    }
 
     @Test
    public void should_return_all_employees_when_get_all_employees_API() throws Exception {
@@ -43,7 +65,7 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_create_employee_when_call_create_employee_api() throws Exception {
         String employee = "{\n" +
-                " \"id\": 1, \n" +
+                " \"id\": 102, \n" +
                 " \"name\": \"Kevin\", \n" +
                 " \"age\": 20, \n" +
                 " \"gender\": \"male\", \n" +
@@ -73,11 +95,11 @@ public class EmployeeIntegrationTest {
 
     @Test
     void should_return_employees_when_findByGender_given_employee_gender() throws Exception {
-        String gender = "male";
+        String gender = "female";
         mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("gender", gender)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", hasSize(5)));
+                .andExpect(jsonPath("$[*].gender", Matchers.hasItem("female"))); //TODO: Matchers.hasItems(gender)
     }
 
     @Test
@@ -121,10 +143,5 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(2)));
     }
-
-
-
-
-
 
 }

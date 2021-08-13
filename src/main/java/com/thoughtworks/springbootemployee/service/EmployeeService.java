@@ -14,8 +14,8 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     @Resource
-    private RetiringEmployeeRepository retiringEmployeeRepository;
-    private EmployeeRepository employeeRepository;
+    private RetiringEmployeeRepository retiringEmployeeRepository;//TODO: final
+    private EmployeeRepository employeeRepository;// TODO: try to remove
 
     public EmployeeService(RetiringEmployeeRepository retiringEmployeeRepository, EmployeeRepository employeeRepository) {
         this.retiringEmployeeRepository = retiringEmployeeRepository;
@@ -26,8 +26,8 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee findEmployeebyID(int employeeId) {
-        return employeeRepository.findById(employeeId).orElseThrow(NoEmployeeWithIDException::new);
+    public Employee findEmployeebyID(int employeeId) {//TODO: By
+        return employeeRepository.findById(employeeId).orElseThrow(()->new NoEmployeeWithIDException("No employee found with this ID"));
     }
 
     public List<Employee> findEmployeesByGender(String gender) {
@@ -45,7 +45,7 @@ public class EmployeeService {
     public Employee updateEmployeeById(int employeeId, Employee updateEmployeeDetails) {
         Employee updateEmployee = employeeRepository.findById(employeeId)
                 .map(employee -> updateEmployeeInformation(employee, updateEmployeeDetails))
-                .get();
+                .get(); //TODO: findbyID then update
         return employeeRepository.save(updateEmployee);
     }
 
