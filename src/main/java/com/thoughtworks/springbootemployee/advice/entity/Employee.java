@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee.model;
+package com.thoughtworks.springbootemployee.advice.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
