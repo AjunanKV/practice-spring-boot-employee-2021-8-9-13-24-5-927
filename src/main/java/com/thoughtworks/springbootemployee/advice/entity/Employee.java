@@ -20,7 +20,6 @@ public class Employee {
     }
 
 
-
     public Employee(Integer id, String name, Integer age, String gender, Integer salary) {
         this.id = id;
         this.name = name;
