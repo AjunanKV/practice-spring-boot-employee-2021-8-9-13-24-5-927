@@ -8,9 +8,9 @@ public class EmployeeRequest {
     private Integer companyid;
 
 
-   public EmployeeRequest(){
+    public EmployeeRequest() {
 
-   }
+    }
 
     public EmployeeRequest(String name, Integer age, String gender, Integer salary, Integer companyid) {
         this.name = name;

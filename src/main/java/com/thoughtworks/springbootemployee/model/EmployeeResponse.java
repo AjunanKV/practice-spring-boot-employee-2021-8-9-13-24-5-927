@@ -7,9 +7,10 @@ public class EmployeeResponse {
     private Integer salary;
     private Integer companyid;
 
-    public EmployeeResponse(){
+    public EmployeeResponse() {
 
     }
+
     public EmployeeResponse(String name, Integer age, String gender, Integer salary) {
         this.name = name;
         this.age = age;
