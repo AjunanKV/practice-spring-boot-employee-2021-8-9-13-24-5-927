@@ -14,8 +14,8 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     @Resource
-    private RetiringEmployeeRepository retiringEmployeeRepository;//TODO: final
-    private EmployeeRepository employeeRepository;// TODO: try to remove
+    private RetiringEmployeeRepository retiringEmployeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     public EmployeeService(RetiringEmployeeRepository retiringEmployeeRepository, EmployeeRepository employeeRepository) {
         this.retiringEmployeeRepository = retiringEmployeeRepository;
