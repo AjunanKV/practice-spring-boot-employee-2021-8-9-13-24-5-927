@@ -26,7 +26,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee findEmployeebyID(int employeeId) {//TODO: By
+    public Employee findEmployeeByID(int employeeId) {
         return employeeRepository.findById(employeeId).orElseThrow(() -> new NoEmployeeWithIDException("No employee found with this ID"));
     }
 

@@ -29,7 +29,7 @@ public class EmployeesController {
 
     @GetMapping(path = "/{employeeid}")
     public EmployeeResponse findbyID(@PathVariable Integer employeeid) {
-        return employeeMapper.toResponse(employeeService.findEmployeebyID(employeeid));
+        return employeeMapper.toResponse(employeeService.findEmployeeByID(employeeid));
     }
 
     @GetMapping(params = "employeeGender")
