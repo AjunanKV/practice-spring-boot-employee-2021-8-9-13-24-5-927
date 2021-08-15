@@ -5,6 +5,7 @@ import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -26,18 +28,16 @@ public class EmployeeIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private EmployeeRepository employeeRepository;
+    private List<Employee> employeeList;
+    @BeforeEach
+        public void createEmplyoees(){
+        employeeList = Arrays.asList((new Employee(1, "Kevin", 20, "male", 999)),
+                new Employee(2, "Jc", 21, "male", 999),
+                new Employee(3, "Janelle", 20, "female", 999),
+                new Employee(3, "Charlie", 21, "male", 999));
+        employeeRepository.saveAll(employeeList);
+    }
 
-    List<Employee> employeeData;
-//    @BeforeEach
-//    void buildUP(){
-//        employeeData = Arrays.asList(new Employee(1,"Kevin",20,"male",9000),
-//                new Employee(2,"Jc",21,"male",1000000),
-//                new Employee(3,"Janelle",20,"femlae",1000000),
-//                new Employee(4,"Charlie",21,"male",1000000));
-//
-//        employeeRepository.save(employeeData);
-//
-//    }
     @AfterEach
     void tearDown(){
         employeeRepository.deleteAll();
@@ -62,13 +62,12 @@ public class EmployeeIntegrationTest {
     @Test
     public void should_create_employee_when_call_create_employee_api() throws Exception {
         String employee = "{\n" +
-                " \"id\": 102, \n" +
-                " \"name\": \"Kevin\", \n" +
+                " \"id\": 5, \n" +
                 " \"age\": 20, \n" +
                 " \"gender\": \"male\", \n" +
+                " \"name\": \"Kevin\", \n" +
                 " \"salary\": 9000\n" +
                 "}";
-
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.post("/employees")
@@ -81,22 +80,22 @@ public class EmployeeIntegrationTest {
     }
     @Test
     void should_return_employee_when_findById_given_employee_id() throws Exception {
-        final int id=1;
+        int id = employeeList.get(0).getId();
         mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value("Kevin"))
-                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.age").value(21))
                 .andExpect(jsonPath("$.gender").value("male"));
     }
 
     @Test
     void should_return_employees_when_findByGender_given_employee_gender() throws Exception {
-        String gender = "female";
+        String gender = "male";
         mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("gender", gender)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].gender", Matchers.hasItem("female"))); //TODO: Matchers.hasItems(gender)
+                .andExpect(jsonPath("$[*].gender", Matchers.hasItem("male")));
     }
 
     @Test
@@ -116,12 +115,13 @@ public class EmployeeIntegrationTest {
     @Test
     void should_update_when_updateEmployee_given_employee_information() throws Exception {
         //given
-        final Employee employee = new Employee(99, "nine-nine", 0, "female", 1000);
-        final Employee savedEmployee = employeeRepository.save(employee);
+        final Employee employee = new Employee(5, "Kevin", 20, "male", 999);
         String newEmployeeInfo = "{\n" +
                 "    \"age\": 99\n" +
                 "}";
+
         //when
+        final Employee savedEmployee = employeeRepository.save(employee);
         int id = savedEmployee.getId();
         mockMvc.perform(MockMvcRequestBuilders.put("/employees/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -138,7 +138,9 @@ public class EmployeeIntegrationTest {
                 .param("pageIndex", String.valueOf(pageIndex)).param("pageSize", String.valueOf(pageSize))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", hasSize(2)));
+                .andExpect(jsonPath("$.*", hasSize(2)))
+                .andExpect(jsonPath("$[0].name").value("Kevin"))
+                .andExpect(jsonPath("$[1].name").value("Jc"));
     }
 
 }

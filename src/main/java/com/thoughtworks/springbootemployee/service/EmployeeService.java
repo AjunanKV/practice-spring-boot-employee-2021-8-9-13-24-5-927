@@ -45,7 +45,7 @@ public class EmployeeService {
     public Employee updateEmployeeById(int employeeId, Employee updateEmployeeDetails) {
         Employee updateEmployee = employeeRepository.findById(employeeId)
                 .map(employee -> updateEmployeeInformation(employee, updateEmployeeDetails))
-                .get(); //TODO: findbyID then update
+                .get();
         return employeeRepository.save(updateEmployee);
     }
 

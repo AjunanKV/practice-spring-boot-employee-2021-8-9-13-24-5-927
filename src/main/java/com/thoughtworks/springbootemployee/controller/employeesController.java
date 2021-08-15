@@ -52,12 +52,11 @@ public class EmployeesController {
 
     @PutMapping(path = "/{employeeId}")
     public EmployeeResponse updateEmployee(@PathVariable Integer employeeId, @RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = employeeService.updateEmployeeById(employeeId, employeeMapper.toEntity(employeeRequest));
-        return employeeMapper.toResponse(employee);
+        return employeeMapper.toResponse(employeeService.updateEmployeeById(employeeId, employeeMapper.toEntity(employeeRequest)));
     }
 
     @DeleteMapping(path = "/{employeeid}")
-    public EmployeeResponse removeEmployee(@PathVariable Integer employeeid) { //TODO: Id
+    public EmployeeResponse removeEmployee(@PathVariable Integer employeeid) {
         Employee employee = employeeService.removeEmployee(employeeid);
         return employeeMapper.toResponse(employee);
     }
