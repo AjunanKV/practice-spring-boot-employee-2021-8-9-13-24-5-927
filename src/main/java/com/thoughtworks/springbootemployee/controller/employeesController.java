@@ -39,8 +39,8 @@ public class EmployeesController {
     }
 
     @GetMapping(params = {"pageIndex", "pageSize"})
-    public List<Employee> getEmployeesByPageIndex(@RequestParam int pageIndex, @RequestParam int pageSize) {
-        return employeeService.getEmployeesWithPageIndexAndPageSize(pageIndex, pageSize);
+    public List<EmployeeResponse> getEmployeesByPageIndex(@RequestParam int pageIndex, @RequestParam int pageSize) {
+        return employeeMapper.toResponseList(employeeService.getEmployeesWithPageIndexAndPageSize(pageIndex, pageSize));
     }
 
     @PostMapping
@@ -58,8 +58,9 @@ public class EmployeesController {
     }
 
     @DeleteMapping(path = "/{employeeid}")
-    public Employee removeEmployee(@PathVariable Integer employeeid) { //TODO: Id
-        return employeeService.removeEmployee(employeeid);
+    public EmployeeResponse removeEmployee(@PathVariable Integer employeeid) { //TODO: Id
+        Employee employee = employeeService.removeEmployee(employeeid);
+        return employeeMapper.toResponse(employee);
     }
 
 }

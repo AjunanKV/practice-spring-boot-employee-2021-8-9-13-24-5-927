@@ -1,12 +1,10 @@
 package com.thoughtworks.springbootemployee.IntegrationTest;
 
-import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.advice.entity.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 
 import org.hamcrest.Matchers;
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
